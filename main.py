@@ -1,30 +1,49 @@
+from rich.console import Console
+from rich.table import Table
 from modules import system_operations as so
 from modules import system_check as sc
 from modules import real_time_update as rt
 
+console = Console()  # create a Console instance
+
 
 def main():
     while True:
-        print("\nWhat would you like to do?")
-        print("0. Display OS info")
-        print("1. Display system partitions")
-        print("2. List files in a directory")
-        print("3. Create a new directory")
-        print("4. Delete a file or directory")
-        print("5. Rename a file or directory")
-        print("6. Display the content of a file")
-        print("7. Display CPU usage")
-        print("8. Display memory usage")
-        print("9. Quit")
+        console.print("\nWhat would you like to do?", style="bold blue")  # using console.print
+        actions = [
+            "Display OS info",
+            "Display system partitions",
+            "List files in a directory",
+            "Create a new directory",
+            "Delete a file or directory",
+            "Rename a file or directory",
+            "Display the content of a file",
+            "Display CPU usage",
+            "Display memory usage",
+            "Quit"
+        ]
+        table = Table(show_header=True, header_style="bold magenta")
+        for i, action in enumerate(actions):
+            table.add_row(str(i), action)
+
+        console.print(table)  # print the table
         choice = input("> ")
         if choice == "0":
             os_info = sc.get_os_info()
+            info_table = Table(show_header=True, header_style="bold green")
             for key, value in os_info.items():
-                print(f"{key}: {value}")
+                info_table.add_row(key, str(value))
+            console.print(info_table)
         elif choice == "1":
             partitions = sc.get_sys_partitions()
+            partitions_table = Table(show_header=True, header_style="bold green")
+            partitions_table.add_column("Partition")
+            partitions_table.add_column("Total")
+            partitions_table.add_column("Used")
+            partitions_table.add_column("Free")
             for partition in partitions:
-                print(f"Partition {partition.device}: {partition.total} total, {partition.used} used, {partition.free} free")
+                partitions_table.add_row(str(partition.device), str(partition.total), str(partition.used), str(partition.free))
+            console.print(partitions_table)
         elif choice == "2":
             so.list_files()
         elif choice == "3":
@@ -42,7 +61,7 @@ def main():
         elif choice == "9":
             break  # exit the loop
         else:
-            print("Invalid choice, please try again.")
+            console.print("Invalid choice, please try again.", style="bold red")  # use colors for error messages
 
 
 # Calling the main function
