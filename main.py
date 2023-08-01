@@ -20,6 +20,7 @@ def main():
             "Display the content of a file",
             "Display CPU usage",
             "Display memory usage",
+            "Execute a shell command",
             "Quit"
         ]
         table = Table(show_header=True, header_style="bold magenta")
@@ -59,6 +60,9 @@ def main():
         elif choice == "8":
             rt.display_memory_usage()
         elif choice == "9":
+            cmd = input("Enter a shell command to execute: ")
+            so.execute_shell_command(cmd)  # execute shell command
+        elif choice == "10":
             break  # exit the loop
         else:
             console.print("Invalid choice, please try again.", style="bold red")  # use colors for error messages

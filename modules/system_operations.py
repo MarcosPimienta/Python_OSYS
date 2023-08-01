@@ -1,5 +1,6 @@
 import os
-
+import subprocess
+import shlex
 
 def list_files():
     try:
@@ -48,3 +49,22 @@ def read_file():
             print(file.read())
     except Exception as e:
         print(f"An error occurred when trying to read the file: {str(e)}")
+
+
+def execute_shell_command(cmd):
+    """Execute a shell command and return the output"""
+
+    # Split the command string into a list of command and arguments/flags
+    flags = shlex.split(cmd)
+
+    # Restrict dangerous commands
+    danger_commands = ['rm', 'sudo', 'mkfs', 'dd']
+    if any(item in danger_commands for item in flags):
+        print("The command is restricted for security reasons.")
+        return
+
+    try:
+        result = subprocess.run(flags, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        print(f"Command output:\n{result.stdout}")
+    except Exception as e:
+        print(f"An error occurred while running the command: {str(e)}")
