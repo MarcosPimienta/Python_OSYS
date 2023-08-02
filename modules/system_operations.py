@@ -1,6 +1,7 @@
 import os
 import subprocess
 import shlex
+from pathlib import Path
 
 
 def list_files():
@@ -69,3 +70,26 @@ def execute_shell_command(cmd):
         print(f"Command output:\n{result.stdout}")
     except Exception as e:
         print(f"An error occurred while running the command: {str(e)}")
+
+
+def organize_files():
+    try:
+        path = input("Enter the path: ")
+        path_obj = Path(path)
+
+        file_types_dir_dict = {}
+
+        for entry in path_obj.iterdir():
+            if entry.is_file():
+                file_extension = entry.suffix
+
+            if file_extension not in file_types_dir_dict:
+                directory_for_type = path_obj / f"{file_extension}_files"
+                directory_for_type.mkdir(exist_ok=True)
+                file_types_dir_dict[file_extension] = directory_for_type
+
+            dest = file_types_dir_dict[file_extension] / entry.name
+            entry.rename(dest)
+
+    except Exception as e:
+        print(f"An error occurred when trying to access directories: {str(e)}")
