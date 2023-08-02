@@ -1,6 +1,8 @@
 # Python_OSYS
+![DevOps-Lifecycle](https://github.com/MarcosPimienta/Python_OSYS/assets/60362847/058b50cb-c53a-4ee5-8c61-9375327fa819)
 
-This application provides a simple command-line interface to interact with the system. It's written in Python, using standard libraries `os`, `sys`, `platform`, and `psutil` to interact with the system and gather information.
+This applicatio![Uploading PyFinity.png…]()
+n provides a simple command-line interface to interact with the system. It's written in Python, using standard libraries `os`, `sys`, `platform`, and `psutil` to interact with the system and gather information.
 
 ## Features
 
